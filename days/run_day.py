@@ -1,4 +1,4 @@
-"""Days 11–82. Each day_xx prints the numbers its note quotes."""
+"""Days 11–83. Each day_xx prints the numbers its note quotes."""
 
 from __future__ import annotations
 
@@ -1038,6 +1038,28 @@ def day_82() -> None:
     else:
         print("line mean abs error on those jump days = not defined")
 
+def day_83() -> None:
+    x, y, cut = _lag5_xy()
+    rows = _complete(_aaa())
+    _, _, ds = _lag5_for_rows(rows)
+    test_dates = ds[cut:]
+    test_y = y[cut:]
+    beta = _ols_design(x[:cut], y[:cut])
+    col, thr, left, right = _best_stump(x[:cut], y[:cut])
+    d2_col, d2_tree = _lag5_depth2_on_best_col(x[:cut], y[:cut])
+    line_hat = _predict_design(beta, x[cut:])
+    stump_hat = _predict_stump_col(x[cut:], col, thr, left, right)
+    deep_hat = predict_tree(x[cut:, d2_col], d2_tree)
+    _, low, _ = _week_vol_high_low(test_y, test_dates)
+    print("regime = low volatility ISO weeks on test stretch")
+    print("low vol week days =", len(low))
+    print("line test MSE low vol weeks =", fmt(_mse(test_y[low], line_hat[low]), 6))
+    print("stump test MSE low vol weeks =", fmt(_mse(test_y[low], stump_hat[low]), 6))
+    stump_mse = _mse(test_y[low], stump_hat[low])
+    deep_mse = _mse(test_y[low], deep_hat[low])
+    print("depth-2 tree test MSE low vol weeks =", fmt(deep_mse, 6))
+    print("deeper tree worse than stump on low vol =", str(deep_mse > stump_mse).lower())
+
 def day_50() -> None:
     train_t, train_y, test_t, test_y = _train_test()
     _, _, dates, cut = _level()
@@ -1066,7 +1088,7 @@ def day_50() -> None:
     print("vote wrong =", str(bool(vote_wrong[index])).lower())
     print("days all three and the vote are wrong =", int(all_three.sum()))
 
-DAYS = {i: globals()[f"day_{i}"] for i in range(11, 83)}
+DAYS = {i: globals()[f"day_{i}"] for i in range(11, 84)}
 
 
 def main(day: int) -> None:
