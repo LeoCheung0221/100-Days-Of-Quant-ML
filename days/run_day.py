@@ -1,4 +1,4 @@
-"""Days 11–83. Each day_xx prints the numbers its note quotes."""
+"""Days 11–84. Each day_xx prints the numbers its note quotes."""
 
 from __future__ import annotations
 
@@ -1060,6 +1060,22 @@ def day_83() -> None:
     print("depth-2 tree test MSE low vol weeks =", fmt(deep_mse, 6))
     print("deeper tree worse than stump on low vol =", str(deep_mse > stump_mse).lower())
 
+def day_84() -> None:
+    test_y, test_hat, dates = _lag5_line_test()
+    abs_y = np.abs(test_y)
+    quiet = abs_y <= np.median(abs_y)
+    jump = abs_y >= float(np.percentile(abs_y, 75))
+    wrong = np.sign(test_y) != np.sign(test_hat)
+    high, low, _ = _week_vol_high_low(test_y, dates)
+    err = np.abs(test_y - test_hat)
+    for label, idx in (("high vol", high), ("low vol", low)):
+        sub = np.zeros(len(test_y), dtype=bool)
+        sub[idx] = True
+        print(f"table {label} quiet days =", int((quiet & sub).sum()))
+        print(f"table {label} jump days =", int((jump & sub).sum()))
+        print(f"table {label} direction wrong days =", int((wrong & sub).sum()))
+        print(f"table {label} mean abs error =", fmt(float(err[sub].mean()), 6))
+
 def day_50() -> None:
     train_t, train_y, test_t, test_y = _train_test()
     _, _, dates, cut = _level()
@@ -1088,7 +1104,7 @@ def day_50() -> None:
     print("vote wrong =", str(bool(vote_wrong[index])).lower())
     print("days all three and the vote are wrong =", int(all_three.sum()))
 
-DAYS = {i: globals()[f"day_{i}"] for i in range(11, 84)}
+DAYS = {i: globals()[f"day_{i}"] for i in range(11, 85)}
 
 
 def main(day: int) -> None:
