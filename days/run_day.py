@@ -1,4 +1,4 @@
-"""Days 11–84. Each day_xx prints the numbers its note quotes."""
+"""Days 11–85. Each day_xx prints the numbers its note quotes."""
 
 from __future__ import annotations
 
@@ -1076,6 +1076,22 @@ def day_84() -> None:
         print(f"table {label} direction wrong days =", int((wrong & sub).sum()))
         print(f"table {label} mean abs error =", fmt(float(err[sub].mean()), 6))
 
+def day_85() -> None:
+    test_y, test_hat, dates = _lag5_line_test()
+    x, y, cut = _lag5_xy()
+    beta = _ols_design(x[:cut], y[:cut])
+    col, thr, left, right = _best_stump(x[:cut], y[:cut])
+    line_hat = _predict_design(beta, x[cut:])
+    tree_hat = _predict_stump_col(x[cut:], col, thr, left, right)
+    high, low, _ = _week_vol_high_low(test_y, dates)
+    line_mse_high = _mse(test_y[high], line_hat[high])
+    tree_mse_high = _mse(test_y[high], tree_hat[high])
+    pick = "line" if line_mse_high <= tree_mse_high else "tree"
+    print("decision cell = high volatility weeks test MSE")
+    print("line test MSE high vol weeks =", fmt(line_mse_high, 6))
+    print("tree test MSE high vol weeks =", fmt(tree_mse_high, 6))
+    print("model kept =", pick)
+
 def day_50() -> None:
     train_t, train_y, test_t, test_y = _train_test()
     _, _, dates, cut = _level()
@@ -1104,7 +1120,7 @@ def day_50() -> None:
     print("vote wrong =", str(bool(vote_wrong[index])).lower())
     print("days all three and the vote are wrong =", int(all_three.sum()))
 
-DAYS = {i: globals()[f"day_{i}"] for i in range(11, 85)}
+DAYS = {i: globals()[f"day_{i}"] for i in range(11, 86)}
 
 
 def main(day: int) -> None:
