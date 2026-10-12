@@ -1,4 +1,4 @@
-"""Days 11–85. Each day_xx prints the numbers its note quotes."""
+"""Days 11–86. Each day_xx prints the numbers its note quotes."""
 
 from __future__ import annotations
 
@@ -1092,6 +1092,24 @@ def day_85() -> None:
     print("tree test MSE high vol weeks =", fmt(tree_mse_high, 6))
     print("model kept =", pick)
 
+def day_86() -> None:
+    rows = _complete(_aaa())
+    dates = [row["date"] for row in rows]
+    lines = [
+        "source = days/data/panel.csv",
+        "name = AAA",
+        "price column = adj_close",
+        f"first date = {dates[0]}",
+        f"last date = {dates[-1]}",
+        f"complete rows = {len(rows)}",
+        "return = same-day simple from adj_close",
+        "lags = 1 through 5 of that return",
+        "split = first seventy-five percent train time-ordered",
+        "hold-out = remaining twenty-five percent",
+    ]
+    for line in lines:
+        print(line)
+
 def day_50() -> None:
     train_t, train_y, test_t, test_y = _train_test()
     _, _, dates, cut = _level()
@@ -1120,7 +1138,7 @@ def day_50() -> None:
     print("vote wrong =", str(bool(vote_wrong[index])).lower())
     print("days all three and the vote are wrong =", int(all_three.sum()))
 
-DAYS = {i: globals()[f"day_{i}"] for i in range(11, 86)}
+DAYS = {i: globals()[f"day_{i}"] for i in range(11, 87)}
 
 
 def main(day: int) -> None:
