@@ -1,4 +1,4 @@
-"""Days 11–86. Each day_xx prints the numbers its note quotes."""
+"""Days 11–87. Each day_xx prints the numbers its note quotes."""
 
 from __future__ import annotations
 
@@ -1110,6 +1110,22 @@ def day_86() -> None:
     for line in lines:
         print(line)
 
+def day_87() -> None:
+    lines = [
+        "allowed = lag1 lag2 lag3 lag4 lag5 intercept",
+        "target = same-day simple return",
+        "forbidden = same-row high low close",
+        "forbidden = same-day market return as feature",
+        "volume = only when day script adds next-bar volume",
+        "label never uses future row",
+        "train fits coefficients thresholds only",
+        "test scores frozen parameters only",
+        "panel = days/data/panel.csv not live feed",
+        "reject list matches day 56 through 57 stdout",
+    ]
+    for line in lines:
+        print(line)
+
 def day_50() -> None:
     train_t, train_y, test_t, test_y = _train_test()
     _, _, dates, cut = _level()
@@ -1138,7 +1154,7 @@ def day_50() -> None:
     print("vote wrong =", str(bool(vote_wrong[index])).lower())
     print("days all three and the vote are wrong =", int(all_three.sum()))
 
-DAYS = {i: globals()[f"day_{i}"] for i in range(11, 87)}
+DAYS = {i: globals()[f"day_{i}"] for i in range(11, 88)}
 
 
 def main(day: int) -> None:
