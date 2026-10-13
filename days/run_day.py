@@ -1,4 +1,4 @@
-"""Days 11–87. Each day_xx prints the numbers its note quotes."""
+"""Days 11–88. Each day_xx prints the numbers its note quotes."""
 
 from __future__ import annotations
 
@@ -1126,6 +1126,14 @@ def day_87() -> None:
     for line in lines:
         print(line)
 
+def day_88() -> None:
+    test_y, test_hat, _ = _lag5_line_test()
+    mse = _mse(test_y, test_hat)
+    print("entry = python3 -m days.run_day 88")
+    print("line test MSE two decimals =", fmt(mse, 2))
+    print("line test MSE six decimals =", fmt(mse, 6))
+    print("match required to two decimals = true")
+
 def day_50() -> None:
     train_t, train_y, test_t, test_y = _train_test()
     _, _, dates, cut = _level()
@@ -1154,7 +1162,7 @@ def day_50() -> None:
     print("vote wrong =", str(bool(vote_wrong[index])).lower())
     print("days all three and the vote are wrong =", int(all_three.sum()))
 
-DAYS = {i: globals()[f"day_{i}"] for i in range(11, 88)}
+DAYS = {i: globals()[f"day_{i}"] for i in range(11, 89)}
 
 
 def main(day: int) -> None:
