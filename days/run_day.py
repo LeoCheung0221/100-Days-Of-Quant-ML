@@ -1,4 +1,4 @@
-"""Days 11–89. Each day_xx prints the numbers its note quotes."""
+"""Days 11–90. Each day_xx prints the numbers its note quotes."""
 
 from __future__ import annotations
 
@@ -1154,6 +1154,22 @@ def day_89() -> None:
     for line in lines:
         print(line)
 
+def day_90() -> None:
+    test_y, test_hat, dates = _lag5_line_test()
+    err = np.abs(test_y - test_hat)
+    order = np.argsort(err)[::-1][:3]
+    abs_y = np.abs(test_y)
+    med = np.median(abs_y)
+    p75 = float(np.percentile(abs_y, 75))
+    for rank, idx in enumerate(order, start=1):
+        if abs_y[idx] >= p75:
+            reason = "jump day horizontal miss"
+        elif np.sign(test_y[idx]) != np.sign(test_hat[idx]):
+            reason = "direction wrong"
+        else:
+            reason = "quiet day size miss"
+        print(f"fail rank {rank} date = {dates[idx]} reason = {reason}")
+
 def day_50() -> None:
     train_t, train_y, test_t, test_y = _train_test()
     _, _, dates, cut = _level()
@@ -1182,7 +1198,7 @@ def day_50() -> None:
     print("vote wrong =", str(bool(vote_wrong[index])).lower())
     print("days all three and the vote are wrong =", int(all_three.sum()))
 
-DAYS = {i: globals()[f"day_{i}"] for i in range(11, 90)}
+DAYS = {i: globals()[f"day_{i}"] for i in range(11, 91)}
 
 
 def main(day: int) -> None:
