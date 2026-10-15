@@ -1,4 +1,4 @@
-"""Days 11–88. Each day_xx prints the numbers its note quotes."""
+"""Days 11–89. Each day_xx prints the numbers its note quotes."""
 
 from __future__ import annotations
 
@@ -1134,6 +1134,26 @@ def day_88() -> None:
     print("line test MSE six decimals =", fmt(mse, 6))
     print("match required to two decimals = true")
 
+def day_89() -> None:
+    x, y, cut = _lag5_xy()
+    beta = _ols_design(x[:cut], y[:cut])
+    col, thr, left, right = _best_stump(x[:cut], y[:cut])
+    test_y = y[cut:]
+    zero = np.zeros_like(test_y)
+    line_hat = _predict_design(beta, x[cut:])
+    tree_hat = _predict_stump_col(x[cut:], col, thr, left, right)
+    lines = [
+        "talk baseline = predict zero return",
+        f"talk baseline test MSE = {fmt(_mse(test_y, zero), 6)}",
+        "talk line = five lag OLS frozen",
+        f"talk line test MSE = {fmt(_mse(test_y, line_hat), 6)}",
+        "talk tree = single lag stump frozen",
+        f"talk tree test MSE = {fmt(_mse(test_y, tree_hat), 6)}",
+        "numbers must match script stdout",
+    ]
+    for line in lines:
+        print(line)
+
 def day_50() -> None:
     train_t, train_y, test_t, test_y = _train_test()
     _, _, dates, cut = _level()
@@ -1162,7 +1182,7 @@ def day_50() -> None:
     print("vote wrong =", str(bool(vote_wrong[index])).lower())
     print("days all three and the vote are wrong =", int(all_three.sum()))
 
-DAYS = {i: globals()[f"day_{i}"] for i in range(11, 89)}
+DAYS = {i: globals()[f"day_{i}"] for i in range(11, 90)}
 
 
 def main(day: int) -> None:
