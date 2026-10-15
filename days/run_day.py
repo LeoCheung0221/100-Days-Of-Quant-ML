@@ -1,4 +1,4 @@
-"""Days 11–90. Each day_xx prints the numbers its note quotes."""
+"""Days 11–91. Each day_xx prints the numbers its note quotes."""
 
 from __future__ import annotations
 
@@ -1170,6 +1170,26 @@ def day_90() -> None:
             reason = "quiet day size miss"
         print(f"fail rank {rank} date = {dates[idx]} reason = {reason}")
 
+def day_91() -> None:
+    rows = _complete(_aaa())
+    close = column(rows, "adj_close")
+    market = column(rows, "market")
+    simple = returns(close)
+    mkt = returns(market)
+    xs, ys = [], []
+    for t in range(5, len(simple)):
+        xs.append([float(simple[t - k]) for k in range(1, 6)] + [float(mkt[t])])
+        ys.append(float(simple[t]))
+    x_arr = np.array(xs)
+    y_arr = np.array(ys)
+    cut = int(0.75 * len(y_arr))
+    mse_lag = _mse(y_arr[cut:], _predict_design(_ols_design(x_arr[:cut, :5], y_arr[:cut]), x_arr[cut:, :5]))
+    mse_leak = _mse(y_arr[cut:], _predict_design(_ols_design(x_arr[:cut], y_arr[:cut]), x_arr[cut:]))
+    print("feature rejected = same-day market return")
+    print("rank before reject = line with leak MSE", fmt(mse_leak, 6))
+    print("rank after reject = lags only MSE", fmt(mse_lag, 6))
+    print("reject stands even if MSE rises = true")
+
 def day_50() -> None:
     train_t, train_y, test_t, test_y = _train_test()
     _, _, dates, cut = _level()
@@ -1198,7 +1218,7 @@ def day_50() -> None:
     print("vote wrong =", str(bool(vote_wrong[index])).lower())
     print("days all three and the vote are wrong =", int(all_three.sum()))
 
-DAYS = {i: globals()[f"day_{i}"] for i in range(11, 91)}
+DAYS = {i: globals()[f"day_{i}"] for i in range(11, 92)}
 
 
 def main(day: int) -> None:
