@@ -1,4 +1,4 @@
-"""Days 11–92. Each day_xx prints the numbers its note quotes."""
+"""Days 11–93. Each day_xx prints the numbers its note quotes."""
 
 from __future__ import annotations
 
@@ -1195,6 +1195,20 @@ def day_92() -> None:
     print("fill row 2 = no order sent slippage zero in script")
     print("fill row 3 = PnL not computed only errors and bills")
 
+def day_93() -> None:
+    test_y, test_hat, _ = _lag5_line_test()
+    slip = 0.0001
+    adj_hat = test_hat - slip
+    wrong_before = np.sign(test_y) != np.sign(test_hat)
+    wrong_after = np.sign(test_y) != np.sign(adj_hat)
+    print("slippage one tick =", fmt(slip, 4))
+    print("direction wrong before slippage =", int(wrong_before.sum()))
+    print("direction wrong after slippage =", int(wrong_after.sum()))
+    if wrong_after.sum() != wrong_before.sum():
+        print("rank changed = true")
+    else:
+        print("rank changed = false")
+
 def day_50() -> None:
     train_t, train_y, test_t, test_y = _train_test()
     _, _, dates, cut = _level()
@@ -1223,7 +1237,7 @@ def day_50() -> None:
     print("vote wrong =", str(bool(vote_wrong[index])).lower())
     print("days all three and the vote are wrong =", int(all_three.sum()))
 
-DAYS = {i: globals()[f"day_{i}"] for i in range(11, 93)}
+DAYS = {i: globals()[f"day_{i}"] for i in range(11, 94)}
 
 
 def main(day: int) -> None:
