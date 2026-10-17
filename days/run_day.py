@@ -1,4 +1,4 @@
-"""Days 11–91. Each day_xx prints the numbers its note quotes."""
+"""Days 11–92. Each day_xx prints the numbers its note quotes."""
 
 from __future__ import annotations
 
@@ -1190,6 +1190,11 @@ def day_91() -> None:
     print("rank after reject = lags only MSE", fmt(mse_lag, 6))
     print("reject stands even if MSE rises = true")
 
+def day_92() -> None:
+    print("fill row 1 = signal at close uses adj_close that day")
+    print("fill row 2 = no order sent slippage zero in script")
+    print("fill row 3 = PnL not computed only errors and bills")
+
 def day_50() -> None:
     train_t, train_y, test_t, test_y = _train_test()
     _, _, dates, cut = _level()
@@ -1218,7 +1223,7 @@ def day_50() -> None:
     print("vote wrong =", str(bool(vote_wrong[index])).lower())
     print("days all three and the vote are wrong =", int(all_three.sum()))
 
-DAYS = {i: globals()[f"day_{i}"] for i in range(11, 92)}
+DAYS = {i: globals()[f"day_{i}"] for i in range(11, 93)}
 
 
 def main(day: int) -> None:
