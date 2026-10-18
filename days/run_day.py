@@ -1,4 +1,4 @@
-"""Days 11–93. Each day_xx prints the numbers its note quotes."""
+"""Days 11–94. Each day_xx prints the numbers its note quotes."""
 
 from __future__ import annotations
 
@@ -1209,6 +1209,27 @@ def day_93() -> None:
     else:
         print("rank changed = false")
 
+def day_94() -> None:
+    rows = _complete(_aaa())
+    x, y, ds = _lag5_for_rows(rows)
+    cut = int(0.75 * len(y))
+    beta = _ols_design(x[:cut], y[:cut])
+    err = np.abs(y[cut:] - _predict_design(beta, x[cut:]))
+    months: dict[str, list[float]] = {}
+    for date, value in zip(ds[cut:], err):
+        months.setdefault(date[:7], []).append(float(value))
+    month_means = {m: float(np.mean(v)) for m, v in months.items()}
+    best = max(month_means, key=month_means.get)
+    keep = np.array([d[:7] != best for d in ds[cut:]])
+    col, thr, left, right = _best_stump(x[:cut], y[:cut])
+    line_mse = _mse(y[cut:][keep], _predict_design(beta, x[cut:][keep]))
+    tree_mse = _mse(y[cut:][keep], _predict_stump_col(x[cut:][keep], col, thr, left, right))
+    pick = "line" if line_mse <= tree_mse else "tree"
+    print("month dropped =", best)
+    print("line test MSE without that month =", fmt(line_mse, 6))
+    print("tree test MSE without that month =", fmt(tree_mse, 6))
+    print("model kept after drop =", pick)
+
 def day_50() -> None:
     train_t, train_y, test_t, test_y = _train_test()
     _, _, dates, cut = _level()
@@ -1237,7 +1258,7 @@ def day_50() -> None:
     print("vote wrong =", str(bool(vote_wrong[index])).lower())
     print("days all three and the vote are wrong =", int(all_three.sum()))
 
-DAYS = {i: globals()[f"day_{i}"] for i in range(11, 94)}
+DAYS = {i: globals()[f"day_{i}"] for i in range(11, 95)}
 
 
 def main(day: int) -> None:
