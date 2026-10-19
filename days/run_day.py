@@ -1,4 +1,4 @@
-"""Days 11–94. Each day_xx prints the numbers its note quotes."""
+"""Days 11–95. Each day_xx prints the numbers its note quotes."""
 
 from __future__ import annotations
 
@@ -1230,6 +1230,18 @@ def day_94() -> None:
     print("tree test MSE without that month =", fmt(tree_mse, 6))
     print("model kept after drop =", pick)
 
+def day_95() -> None:
+    def mse_name(name: str) -> float:
+        rows = _complete(name_rows(name))
+        x, y, _ = _lag5_for_rows(rows)
+        cut = int(0.75 * len(y))
+        beta = _ols_design(x[:cut], y[:cut])
+        return _mse(y[cut:], _predict_design(beta, x[cut:]))
+
+    print("entry = same pipeline function as day 68")
+    print("AAA test MSE =", fmt(mse_name("AAA"), 6))
+    print("BBB test MSE =", fmt(mse_name("BBB"), 6))
+
 def day_50() -> None:
     train_t, train_y, test_t, test_y = _train_test()
     _, _, dates, cut = _level()
@@ -1258,7 +1270,7 @@ def day_50() -> None:
     print("vote wrong =", str(bool(vote_wrong[index])).lower())
     print("days all three and the vote are wrong =", int(all_three.sum()))
 
-DAYS = {i: globals()[f"day_{i}"] for i in range(11, 95)}
+DAYS = {i: globals()[f"day_{i}"] for i in range(11, 96)}
 
 
 def main(day: int) -> None:
