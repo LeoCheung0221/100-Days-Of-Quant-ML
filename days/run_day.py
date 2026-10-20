@@ -1,4 +1,4 @@
-"""Days 11–96. Each day_xx prints the numbers its note quotes."""
+"""Days 11–97. Each day_xx prints the numbers its note quotes."""
 
 from __future__ import annotations
 
@@ -1248,6 +1248,13 @@ def day_96() -> None:
     print("one page title baseline = zero return on hold-out")
     print("one page title errors = quiet jump direction wrong plus bill")
 
+def day_97() -> None:
+    print("open leak = same-day market column lowers MSE but forbidden")
+    print("reference day = 67")
+    print("patch = fit lags only on train score hold-out")
+    print("symptom = MSE changes when forbidden column added")
+    print("fix owner = feature builder before OLS")
+
 def day_50() -> None:
     train_t, train_y, test_t, test_y = _train_test()
     _, _, dates, cut = _level()
@@ -1276,7 +1283,7 @@ def day_50() -> None:
     print("vote wrong =", str(bool(vote_wrong[index])).lower())
     print("days all three and the vote are wrong =", int(all_three.sum()))
 
-DAYS = {i: globals()[f"day_{i}"] for i in range(11, 97)}
+DAYS = {i: globals()[f"day_{i}"] for i in range(11, 98)}
 
 
 def main(day: int) -> None:
