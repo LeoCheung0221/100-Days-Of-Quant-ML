@@ -1,4 +1,4 @@
-"""Days 11–99. Each day_xx prints the numbers its note quotes."""
+"""Days 11–100. Each day_xx prints the numbers its note quotes."""
 
 from __future__ import annotations
 
@@ -1286,6 +1286,26 @@ def day_99() -> None:
     print("full run matches day 51 test MSE =", str(fmt(test_mse, 6) == fmt(_mse(y[cut:], _predict_design(beta, x[cut:])), 6)).lower())
     print("manifest matches day 70 ten lines = true")
 
+def day_100() -> None:
+    rows = _complete(_aaa())
+    dates = [row["date"] for row in rows]
+    test_y, test_hat, test_dates = _lag5_line_test()
+    wrong = int((np.sign(test_y) != np.sign(test_hat)).sum())
+    lines = [
+        f"narrative data ends = {dates[-1]}",
+        "narrative forbidden = same-row OHLC and same-day market",
+        "narrative mistake types = quiet jump direction wrong",
+        "narrative why no order = script assumes close fill slippage zero only scores",
+        f"narrative hold-out days = {len(test_y)}",
+        f"narrative direction wrong = {wrong}",
+        "narrative baseline = zero return not beaten on all metrics",
+        "narrative bill prefers line over tree on day 79",
+        "narrative forbidden market column is not a valid result day 67",
+        "listener can repeat this page without opening code",
+    ]
+    for line in lines:
+        print(line)
+
 def day_50() -> None:
     train_t, train_y, test_t, test_y = _train_test()
     _, _, dates, cut = _level()
@@ -1314,7 +1334,7 @@ def day_50() -> None:
     print("vote wrong =", str(bool(vote_wrong[index])).lower())
     print("days all three and the vote are wrong =", int(all_three.sum()))
 
-DAYS = {i: globals()[f"day_{i}"] for i in range(11, 100)}
+DAYS = {i: globals()[f"day_{i}"] for i in range(11, 101)}
 
 
 def main(day: int) -> None:
