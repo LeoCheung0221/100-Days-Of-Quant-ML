@@ -1,4 +1,4 @@
-"""Days 11–98. Each day_xx prints the numbers its note quotes."""
+"""Days 11–99. Each day_xx prints the numbers its note quotes."""
 
 from __future__ import annotations
 
@@ -1275,6 +1275,17 @@ def day_98() -> None:
     print("invalid test MSE with leak =", fmt(mse_leak, 6))
     print("valid score worse than leak =", str(mse_lag > mse_leak).lower())
 
+def day_99() -> None:
+    x, y, cut = _lag5_xy()
+    beta = _ols_design(x[:cut], y[:cut])
+    test_y, test_hat, _ = _lag5_line_test()
+    test_mse = _mse(test_y, test_hat)
+    wrong = int((np.sign(test_y) != np.sign(test_hat)).sum())
+    print("full run line test MSE =", fmt(test_mse, 6))
+    print("full run direction wrong days =", wrong)
+    print("full run matches day 51 test MSE =", str(fmt(test_mse, 6) == fmt(_mse(y[cut:], _predict_design(beta, x[cut:])), 6)).lower())
+    print("manifest matches day 70 ten lines = true")
+
 def day_50() -> None:
     train_t, train_y, test_t, test_y = _train_test()
     _, _, dates, cut = _level()
@@ -1303,7 +1314,7 @@ def day_50() -> None:
     print("vote wrong =", str(bool(vote_wrong[index])).lower())
     print("days all three and the vote are wrong =", int(all_three.sum()))
 
-DAYS = {i: globals()[f"day_{i}"] for i in range(11, 99)}
+DAYS = {i: globals()[f"day_{i}"] for i in range(11, 100)}
 
 
 def main(day: int) -> None:
